@@ -13,6 +13,8 @@ const Login = () => {
         setData({...data,[name]:value})
     }
     const Navigate = useNavigate()
+
+
     const submit = async ()=>{
             if(data.username === "" || data.password === ""){
                 alert("All fields are required")
@@ -23,6 +25,14 @@ const Login = () => {
                     console.log(response)
                     localStorage.setItem("id",response.data.id)
                     localStorage.setItem("token",response.data.token)
+                    
+                                        // uncomment this 
+                    // if(response.ok){// set conditon based on reponse 
+                    //   dispatch(authActions.logIn());
+                    //   Navigate('/myblog');
+                      // }
+
+                            // remove this
                     dispatch(authActions.logOut)
                     Navigate('/myblogs')
                 } catch (error) {
@@ -30,6 +40,16 @@ const Login = () => {
                 }
             }
     }
+    const tempSubmit = ()=>{
+        // add this to your submit function and delete this function
+        // i make this function because the server is not running in my pc so i am not able to send data to the sever
+
+        // if(response.ok){// set conditon based on reponse 
+        dispatch(authActions.logIn());
+        Navigate('/');
+    // }
+    }
+    
   return (
    <>
        
@@ -60,7 +80,7 @@ const Login = () => {
                             value={data.password}
                         />
                     </div>
-                    <button onClick={submit} className="font-semibold py-2 px-3 rounded-lg bg-gray-900 text-white w-2/6 mx-auto mt-4" >Login</button>
+                    <button onClick={tempSubmit} className="font-semibold py-2 px-3 rounded-lg bg-gray-900 text-white w-2/6 mx-auto mt-4" >Login</button>
                     <Link to="/signup" className='mt-3 text-gray-700 opacity-[0.8] hover:opacity-[1] transition-all'>Not having an account? Sign up here...</Link>
                 </div>
             </div>

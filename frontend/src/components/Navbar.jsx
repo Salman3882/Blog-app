@@ -7,19 +7,28 @@ import { authActions } from '../../redux/auth';
 import '../App.css'
 
 const Navbar = () => {
+    const dispatch = useDispatch();
     const [menu, setMenu] = useState(false)
     const [login, setLogin] = useState(false)
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
     const Navigate = useNavigate()
-    const logOut = () => {
-        const userConfirm = confirm("Are you sure you want to log out?")
-        if (userConfirm) {
-            localStorage.clear()
-            Navigate("/")
-        }
+    // const logOut = () => {
+    //     const userConfirm = confirm("Are you sure you want to log out?")
+    //     if (userConfirm) {
+    //         localStorage.clear()
+    //         Navigate("/")
+    //     }
         
-    }
+    // }
 
+    const handleLogOut = () =>{
+        const userConfirm = confirm("Are you sure to Logout");
+        if(userConfirm){
+            dispatch(authActions.logOut());
+            localStorage.clear();
+            Navigate("/login")
+        }
+    }
     
     const [sidebar, setSidebar] = useState('closeSidebar')
     const toggleSidebar = () => {
@@ -66,12 +75,12 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className='flex gap-x-4 items-center '>
-                    {isLoggedIn ?
+                    {!isLoggedIn ?
                     
                         <Link to='/login' className='py-2 px-6 rounded-lg bg-gray-800 font-bold text-xl mt-1 hover:bg-gray-700 transition-all'>Login</Link>
                        
                         :  
-                        <Link to='/login' onClick={logOut} className='py-2 px-6 rounded-lg bg-gray-800 font-bold text-xl mt-1 hover:bg-gray-700 transition-all'>Logout</Link>
+                        <Link to='/login' onClick={handleLogOut} className='py-2 px-6 rounded-lg bg-gray-800 font-bold text-xl mt-1 hover:bg-gray-700 transition-all'>Logout</Link>
                     
                    }
                     <button onClick={toggleSidebar} className='font-bold lg:hidden text-2xl leading-[80px]'>
